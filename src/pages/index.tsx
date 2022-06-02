@@ -36,11 +36,22 @@ export default function Home({ postsPagination: {next_page, results}, } :HomePro
 
   async function handleGetNextPage(): Promise<void> {
     try {
-      const response = await fetch(
-        `/api/posts-next-page?next_page=${encodeURIComponent(nextPage)}`
-      );
+      const response = await fetch(nextPage);
       const data = await response.json();
-      setPosts(v => [...v, ...(data.posts as Post[])]);
+      const newPosts = data.results.map(post => ({
+        uid: post.uid,
+        first_publication_date: format(
+          new Date(post.first_publication_date),
+          'dd MMM yyyy',
+          { locale: ptBR }
+        ),
+        data: {
+          title: post.data.title,
+          subtitle: post.data.subtitle,
+          author: post.data.author,
+        },
+      }));
+      setPosts(v => [...v, ...newPosts]);
       setNextPage(data.next_page);
     } catch {}
   }
@@ -66,10 +77,11 @@ export default function Home({ postsPagination: {next_page, results}, } :HomePro
           </Link>
           
         ))}
-        
-        <section className={styles.morePosts}>
-          <a href="#">Carregar mais posts</a>
-        </section>
+         {nextPage && (
+          <section className={styles.morePosts}>
+            <a onClick={handleGetNextPage}>Carregar mais posts</a>
+          </section>
+        )}
       </main>
     </>
   )
