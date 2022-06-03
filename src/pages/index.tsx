@@ -40,11 +40,12 @@ export default function Home({ postsPagination: {next_page, results}, } :HomePro
       const data = await response.json();
       const newPosts = data.results.map(post => ({
         uid: post.uid,
-        first_publication_date: format(
-          new Date(post.first_publication_date),
-          'dd MMM yyyy',
-          { locale: ptBR }
-        ),
+        first_publication_date: post.first_publication_date,
+        // first_publication_date: format(
+        //   new Date(post.first_publication_date),
+        //   'dd MMM yyyy',
+        //   { locale: ptBR }
+        // ),
         data: {
           title: post.data.title,
           subtitle: post.data.subtitle,
@@ -99,11 +100,12 @@ export const getStaticProps: GetStaticProps = async () => {
   const posts = postsResponse.results.map(post => {
     return {
       uid: post.uid,
-      first_publication_date: format(
-        new Date(post.first_publication_date),
-        'dd MMM yyyy',
-        { locale: ptBR }
-      ),
+      first_publication_date: post.first_publication_date,
+      // first_publication_date: format(
+      //   new Date(post.first_publication_date),
+      //   'dd MMM yyyy',
+      //   { locale: ptBR }
+      // ),
       data: {
         title: post.data.title,
         subtitle: post.data.subtitle,
