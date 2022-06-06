@@ -71,7 +71,7 @@ export default function Home({ postsPagination: {next_page, results}, } :HomePro
               <h1>{post.data.title}</h1>
               <h2>{post.data.subtitle}</h2>
               <section className={styles.info}>
-                <span><FiCalendar/> {post.first_publication_date}</span>
+                <span><FiCalendar/> {format(new Date(post.first_publication_date), 'dd MMM yyyy', { locale: ptBR })}</span>
                 <span><FiUser/> {post.data.author}</span>
               </section>
             </a>
